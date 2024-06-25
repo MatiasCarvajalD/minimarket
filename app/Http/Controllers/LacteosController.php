@@ -4,57 +4,38 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PageController extends Controller
+class LacteosController extends Controller
 {
-    public function home()
+    private $categorias = [
+        'leche_entera' => 'Leche Entera',
+        'leche_descremada' => 'Leche Descremada',
+        'leche_semidescremada' => 'Leche Semidescremada',
+        'yogur' => 'Yogur',
+        'queso' => 'Queso',
+        'mantequilla' => 'Mantequilla',
+        'crema' => 'Crema',
+        'quesillo' => 'Quesillo',
+        'leche_condensada' => 'Leche Condensada',
+        'leche_evaporada' => 'Leche Evaporada',
+        'queso_rallado' => 'Queso Rallado',
+        'postres_lacteos' => 'Postres Lácteos',
+        'manjar' => 'Manjar'
+    ];
+
+    public function index()
     {
-        return view('home');
+        return view('lacteos.index', ['categorias' => $this->categorias]);
     }
 
-    public function cecinas()
+    public function categoria($categoria)
     {
-        return view('cecinas');
-    }
-
-    public function bebidas()
-    {
-        return view('bebidas');
-    }
-
-    public function galletas()
-    {
-        return view('galletas');
-    }
-
-    public function lacteos()
-    {
-        return view('lacteos.index');
-    }
-
-    public function categoriaLacteos($categoria)
-    {
-        $categorias = [
-            'leche_entera' => 'Leche Entera',
-            'leche_descremada' => 'Leche Descremada',
-            'leche_semidescremada' => 'Leche Semidescremada',
-            'yogur' => 'Yogur',
-            'queso' => 'Queso',
-            'mantequilla' => 'Mantequilla',
-            'crema' => 'Crema',
-            'quesillo' => 'Quesillo',
-            'leche_condensada' => 'Leche Condensada',
-            'leche_evaporada' => 'Leche Evaporada',
-            'queso_rallado' => 'Queso Rallado',
-            'postres_lacteos' => 'Postres Lácteos',
-            'manjar' => 'Manjar'
-        ];
-
-        if (!array_key_exists($categoria, $categorias)) {
+        if (!array_key_exists($categoria, $this->categorias)) {
             abort(404);
         }
 
         $data = [
-            'categoria' => $categorias[$categoria],
+            'categoria' => $this->categorias[$categoria],
+            'categorias' => $this->categorias,
             'productos' => $this->getProductosPorCategoria($categoria)
         ];
 
