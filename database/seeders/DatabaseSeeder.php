@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
             CecinasTableSeeder::class,
             GalletasTableSeeder::class,
             LacteosTableSeeder::class,
+            PanaderiaTableSeeder::class,
+            OtrosTableSeeder::class,
         ]);
     }
 }

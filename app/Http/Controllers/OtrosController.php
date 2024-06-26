@@ -3,18 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Otro;
 
 class OtrosController extends Controller
 {
     public function index()
     {
-        // Lógica para obtener las categorías de otros productos
-        return view('otros.index');
+        $categorias = Otro::select('categoria')->distinct()->pluck('categoria');
+        $productos = Otro::all()->groupBy('categoria');
+        return view('otros.index', compact('productos', 'categorias'));
     }
 
     public function categoria($categoria)
     {
-        // Lógica para obtener los productos de una categoría específica de otros productos
-        return view('otros.categoria', compact('categoria'));
+        $productos = Otro::where('categoria', $categoria)->get();
+        return view('otros.categoria', compact('productos', 'categoria'));
     }
 }

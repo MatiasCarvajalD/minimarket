@@ -9,6 +9,7 @@ use App\Http\Controllers\OtrosController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PanaderiaController;
 
 // Rutas públicas
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -34,6 +35,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [GalletasController::class, 'index'])->name('galletas.index');
     });
 
+    Route::get('/panaderia', [PanaderiaController::class, 'index'])->name('panaderia.index');
+    
     Route::prefix('otros')->group(function () {
         Route::get('/', [OtrosController::class, 'index'])->name('otros.index');
         Route::get('/{categoria}', [OtrosController::class, 'categoria'])->name('otros.categoria');

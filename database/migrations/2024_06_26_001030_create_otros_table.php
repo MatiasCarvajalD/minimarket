@@ -11,10 +11,12 @@ class CreateOtrosTable extends Migration
         Schema::create('otros', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('categoria'); // Asegúrate de que esta línea esté presente
             $table->string('marca');
             $table->integer('precio');
-            $table->string('peso');
-            $table->string('imagen')->nullable();
+            $table->integer('peso')->nullable();
+            $table->string('unidad')->nullable();
+            $table->string('imagen');
             $table->timestamps();
         });
     }
@@ -24,3 +26,4 @@ class CreateOtrosTable extends Migration
         Schema::dropIfExists('otros');
     }
 }
+

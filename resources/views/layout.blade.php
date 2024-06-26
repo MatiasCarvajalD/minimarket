@@ -16,9 +16,6 @@
             <div class="col-8">
                 Bienvenido <span class="fw-bold">User1</span>
             </div>
-            <div class="col-3 text-end d-none d-lg-block">
-                Último inicio de sesión 01/04/2023 a las 18:34
-            </div>
             <div class="col-1 text-end d-none d-lg-block">
                 <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                     @csrf
@@ -61,8 +58,12 @@
                             href="{{ route('lacteos.index') }}">Lácteos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if(Route::currentRouteName() == 'otros.index') active @endif"
-                            href="{{ route('otros.index') }}">Otros</a>
+                            <a class="nav-link @if(Route::current()->getName()=='panaderia.index') active @endif" 
+                            aria-current="page" href="{{ route('panaderia.index') }}">Panadería</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @if(Route::current()->getName()=='otros.index') active @endif" 
+                            aria-current="page" href="{{ route('otros.index') }}">Otros</a>
                         </li>
                         <li class="nav-item d-lg-none">
                             <form action="{{ route('logout') }}" method="POST">
