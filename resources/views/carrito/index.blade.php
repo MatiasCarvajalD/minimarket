@@ -1,51 +1,51 @@
 @extends('layout')
 
-@section('title', 'Carrito')
-
 @section('contenido-principal')
-<div class="container mt-5">
-    <h1 class="mb-4">Carrito de Compras</h1>
-    @if(session('success'))
+<div class="container mt-4">
+    <h1 class="text-center">Carrito de Compras</h1>
+    @if(Session::has('success'))
         <div class="alert alert-success">
-            {{ session('success') }}
+            {{ Session::get('success') }}
         </div>
     @endif
-    <div class="table-responsive">
+
+    @if(Session::has('error'))
+        <div class="alert alert-danger">
+            {{ Session::get('error') }}
+        </div>
+    @endif
+
+    @if(!empty($cart))
         <table class="table">
             <thead>
                 <tr>
                     <th>Producto</th>
-                    <th>Marca</th>
+                    <th>Precio</th>
                     <th>Cantidad</th>
-                    <th>Precio Unitario</th>
                     <th>Total</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($cart as $index => $item)
+                @foreach($cart as $id => $details)
                     <tr>
-                        <td>{{ $item['producto'] }}</td>
-                        <td>{{ $item['marca'] }}</td>
-                        <td>{{ $item['cantidad'] }}</td>
-                        <td>${{ $item['precio'] }} CLP</td>
-                        <td>${{ $item['cantidad'] * $item['precio'] }} CLP</td>
+                        <td>{{ $details['nombre'] }}</td>
+                        <td>{{ $details['precio'] }} CLP</td>
+                        <td>{{ $details['cantidad'] }}</td>
+                        <td>{{ $details['precio'] * $details['cantidad'] }} CLP</td>
                         <td>
                             <form action="{{ route('cart.remove') }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="index" value="{{ $index }}">
-                                <button type="submit" class="btn btn-danger">Remover</button>
+                                <input type="hidden" name="producto_id" value="{{ $id }}">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
                             </form>
                         </td>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="text-center">El carrito está vacío</td>
-                    </tr>
-                @endforelse
+                @endforeach
             </tbody>
         </table>
-    </div>
-    <a href="{{ route('home.index') }}" class="btn btn-primary">Continuar Comprando</a>
+    @else
+        <p class="text-center">No hay productos en el carrito</p>
+    @endif
 </div>
 @endsection

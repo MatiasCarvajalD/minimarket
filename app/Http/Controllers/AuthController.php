@@ -3,39 +3,64 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    // Mostrar formulario de login
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
+    // Manejar login
     public function login(Request $request)
     {
-        // Validar las credenciales del usuario
         $credentials = $request->only('email', 'password');
 
-        // Intentar encontrar el usuario manualmente sin encriptación
-        $user = User::where('email', $credentials['email'])->where('password', $credentials['password'])->first();
-
-        if ($user) {
-            Auth::login($user);
-            return redirect()->route('home.index');
+        // Intentar iniciar sesión sin encriptar la contraseña
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('/');
         }
 
-        // Redirigir de vuelta al formulario de inicio de sesión con un mensaje de error
-        return redirect()->route('login')->withErrors([
+        return back()->withErrors([
             'email' => 'Las credenciales no coinciden con nuestros registros.',
         ]);
     }
 
-    public function logout()
+    // Manejar logout
+    public function logout(Request $request)
     {
         Auth::logout();
         return redirect()->route('login');
     }
-}
 
+    // Mostrar formulario de registro
+    public function showRegisterForm()
+    {
+        return view('auth.register');
+    }
+
+    // Manejar registro
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:usuarios',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Crear usuario sin encriptar la contraseña
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'role' => 'user',
+        ]);
+
+        Auth::login($user);
+
+        return redirect()->route('home.index');
+    }
+}

@@ -32,7 +32,11 @@
                             <div class="mb-3 text-end">
                                 <button type="submit" class="btn btn-success">Iniciar Sesión</button>
                             </div>
+                            <div class="mt-3 text-end">
+                                <a href="{{ route('register') }}" class="btn btn-primary">Registrarse</a>
+                            </div>
                         </form>
+
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -43,6 +47,7 @@
                             </div>
                         @endif
                     </div>
+                    
                 </div>
             </div>
         </div>

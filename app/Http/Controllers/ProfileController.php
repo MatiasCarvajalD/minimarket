@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -22,29 +21,60 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'role' => 'required|string|in:user,admin',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'role' => 'required'
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;  // No encriptado 
+        $user->role = $request->role;
+        $user->save();
 
         return redirect()->route('profiles.index')->with('success', 'Usuario creado exitosamente.');
     }
 
-    public function destroy(User $user)
+    public function edit($id)
     {
-        if ($user->role === 'admin' && $user->id === auth()->id()) {
-            return redirect()->route('profiles.index')->with('error', 'No puedes eliminar tu propia cuenta.');
+        $user = User::findOrFail($id);
+        return view('profiles.edit', compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'password' => 'nullable|min:6',
+            'role' => 'required'
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->password) {
+            $user->password = $request->password;
+        }
+        $user->role = $request->role;
+        $user->save();
+
+        return redirect()->route('profiles.index')->with('success', 'Usuario actualizado exitosamente.');
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+
+        if (auth()->user()->id === $user->id) {
+            return redirect()->route('profiles.index')->withErrors('No puedes eliminarte a ti mismo.');
         }
 
         $user->delete();
+
         return redirect()->route('profiles.index')->with('success', 'Usuario eliminado exitosamente.');
     }
 }
