@@ -19,10 +19,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
-    Route::prefix('lacteos')->group(function () {
-        Route::get('/', [LacteosController::class, 'index'])->name('lacteos.index');
-        Route::get('/{categoria}', [LacteosController::class, 'categoria'])->name('lacteos.categoria');
-    });
+    Route::get('/lacteos', [LacteosController::class, 'index'])->name('lacteos.index');
+    Route::get('/lacteos/{categoria}', [LacteosController::class, 'categoria'])->name('lacteos.categoria');
 
     Route::prefix('cecinas')->group(function () {
         Route::get('/', [CecinasController::class, 'index'])->name('cecinas.index');

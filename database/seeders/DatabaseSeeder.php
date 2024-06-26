@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             BebidasTableSeeder::class,
             CecinasTableSeeder::class,
+            GalletasTableSeeder::class,
+            LacteosTableSeeder::class,
         ]);
     }
 }

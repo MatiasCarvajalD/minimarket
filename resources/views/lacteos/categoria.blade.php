@@ -1,39 +1,34 @@
 @extends('layout')
 
-@section('title', $categoria)
+@section('title', 'Lácteos - ' . $categoria)
 
 @section('contenido-principal')
 <div class="container mt-5">
     <h1 class="mb-4">{{ $categoria }}</h1>
-    <div class="row">
-        <!-- Sidebar de categorías -->
-        <div class="col-md-3">
-            <div class="list-group">
-                @foreach($categorias as $key => $categoriaItem)
-                <a href="{{ route('lacteos.categoria', $key) }}" class="list-group-item list-group-item-action {{ $categoria == $categoriaItem ? 'active' : '' }}">{{ $categoriaItem }}</a>
-                @endforeach
-            </div>
-        </div>
-        <!-- Fin Sidebar -->
-
-        <!-- Lista de productos -->
-        <div class="col-md-9">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                @foreach($productos as $producto)
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="{{ asset('images/' . $producto['imagen']) }}" class="card-img-top" alt="{{ $producto['marca'] }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $categoria }} - {{ $producto['marca'] }}</h5>
-                            <p class="card-text">${{ $producto['precio'] }} CLP</p>
-                            <a href="#" class="btn btn-primary">Agregar</a>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach($lacteos as $lacteo)
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ asset('images/' . $lacteo->imagen) }}" class="card-img-top custom-img" alt="{{ $lacteo->nombre }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $lacteo->nombre }}</h5>
+                    <p class="card-text">Marca: {{ $lacteo->marca }}</p>
+                    <p class="card-text">Peso: {{ $lacteo->peso }}g</p>
+                    <p class="card-text">Precio: ${{ $lacteo->precio }} CLP</p>
+                    <form action="{{ route('cart.add') }}" method="POST">
+                        @csrf
+                        <div class="input-group mb-3">
+                            <input type="number" name="cantidad" class="form-control" placeholder="Cantidad" min="1" value="1">
+                            <input type="hidden" name="producto" value="{{ $lacteo->nombre }}">
+                            <input type="hidden" name="marca" value="{{ $lacteo->marca }}">
+                            <input type="hidden" name="precio" value="{{ $lacteo->precio }}">
+                            <button class="btn btn-primary" type="submit">Agregar</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
-                @endforeach
             </div>
         </div>
-        <!-- Fin Lista de productos -->
+        @endforeach
     </div>
 </div>
 @endsection
