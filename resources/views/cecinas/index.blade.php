@@ -6,29 +6,21 @@
 <div class="container mt-5">
     <h1 class="mb-4">Cecinas</h1>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        @foreach($productos as $producto)
+        @foreach($cecinas as $cecinasItem)
         <div class="col">
             <div class="card h-100">
-                <img src="{{ asset('images/' . $producto['imagen']) }}" class="card-img-top" alt="{{ $producto['nombre'] }}">
+                <img src="{{ asset('images/' . $cecinasItem->imagen) }}" class="card-img-top custom-img" alt="{{ $cecinasItem->nombre }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $producto['nombre'] }}</h5>
-                    <p class="card-text">{{ $producto['peso'] }}</p>
-                    <div class="mb-3">
-                        <label for="marca-{{ $loop->index }}" class="form-label">Marca</label>
-                        <select class="form-select marca-select" id="marca-{{ $loop->index }}" data-precios='@json($producto['marcas'])'>
-                            @foreach($producto['marcas'] as $marca)
-                            <option value="{{ $marca['precio'] }}">{{ $marca['nombre'] }} - ${{ $marca['precio'] }} CLP</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <p class="card-text">Precio: <span class="precio">${{ $producto['marcas'][0]['precio'] }}</span> CLP</p>
+                    <h5 class="card-title">{{ $cecinasItem->nombre }}</h5>
+                    <p class="card-text">Marca: {{ $cecinasItem->marca }}</p>
+                    <p class="card-text">Precio: ${{ $cecinasItem->precio }} CLP</p>
                     <form action="{{ route('cart.add') }}" method="POST">
                         @csrf
                         <div class="input-group mb-3">
                             <input type="number" name="cantidad" class="form-control" placeholder="Cantidad" min="1" value="1">
-                            <input type="hidden" name="producto" value="{{ $producto['nombre'] }}">
-                            <input type="hidden" name="marca" class="marca-input" value="{{ $producto['marcas'][0]['nombre'] }}">
-                            <input type="hidden" name="precio" class="precio-input" value="{{ $producto['marcas'][0]['precio'] }}">
+                            <input type="hidden" name="producto" value="{{ $cecinasItem->nombre }}">
+                            <input type="hidden" name="marca" value="{{ $cecinasItem->marca }}">
+                            <input type="hidden" name="precio" value="{{ $cecinasItem->precio }}">
                             <button class="btn btn-primary" type="submit">Agregar</button>
                         </div>
                     </form>
@@ -38,22 +30,4 @@
         @endforeach
     </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const selects = document.querySelectorAll('.marca-select');
-        selects.forEach(select => {
-            select.addEventListener('change', function () {
-                const precios = JSON.parse(this.getAttribute('data-precios'));
-                const selectedOption = this.options[this.selectedIndex];
-                const precio = selectedOption.value;
-                const marca = selectedOption.text.split(' - ')[0];
-
-                const cardBody = this.closest('.card-body');
-                cardBody.querySelector('.precio').textContent = '$' + precio + ' CLP';
-                cardBody.querySelector('.marca-input').value = marca;
-                cardBody.querySelector('.precio-input').value = precio;
-            });
-        });
-    });
-</script>
 @endsection

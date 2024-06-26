@@ -3,50 +3,48 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
     public function index()
     {
-        $cart = Session::get('cart', []);
-        return view('carrito.index', compact('cart'));
+        return view('cart.index');
     }
 
     public function add(Request $request)
     {
-        $producto = $request->input('producto');
-        $cantidad = $request->input('cantidad');
-        $precio = $request->input('precio');
+        $cart = session()->get('cart', []);
 
-        $cart = Session::get('cart', []);
+        $id = $request->input('producto') . '-' . $request->input('marca');
 
-        if (isset($cart[$producto])) {
-            $cart[$producto]['cantidad'] += $cantidad;
+        if (isset($cart[$id])) {
+            $cart[$id]['cantidad'] += $request->input('cantidad');
         } else {
-            $cart[$producto] = [
-                'cantidad' => $cantidad,
-                'precio' => $precio
+            $cart[$id] = [
+                "nombre" => $request->input('producto'),
+                "marca" => $request->input('marca'),
+                "cantidad" => $request->input('cantidad'),
+                "precio" => $request->input('precio'),
+                "imagen" => $request->input('imagen') ?? 'default.jpg'
             ];
         }
 
-        Session::put('cart', $cart);
-
-        return redirect()->route('carrito')->with('success', 'Producto agregado al carrito');
+        session()->put('cart', $cart);
+        return redirect()->route('cart.index');
     }
 
     public function remove(Request $request)
     {
-        $producto = $request->input('producto');
+        $cart = session()->get('cart', []);
+        $id = $request->input('id');
 
-        $cart = Session::get('cart', []);
-
-        if (isset($cart[$producto])) {
-            unset($cart[$producto]);
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
         }
 
-        Session::put('cart', $cart);
-
-        return redirect()->route('carrito')->with('success', 'Producto eliminado del carrito');
+        return redirect()->route('cart.index');
     }
 }
+
+

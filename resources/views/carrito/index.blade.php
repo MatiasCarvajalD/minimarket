@@ -5,42 +5,47 @@
 @section('contenido-principal')
 <div class="container mt-5">
     <h1 class="mb-4">Carrito de Compras</h1>
-    @if(Session::has('success'))
+    @if(session('success'))
         <div class="alert alert-success">
-            {{ Session::get('success') }}
+            {{ session('success') }}
         </div>
     @endif
-    @if(count($cart) > 0)
-        <table class="table table-hover">
+    <div class="table-responsive">
+        <table class="table">
             <thead>
                 <tr>
                     <th>Producto</th>
+                    <th>Marca</th>
                     <th>Cantidad</th>
                     <th>Precio Unitario</th>
-                    <th>Subtotal</th>
+                    <th>Total</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($cart as $producto => $detalle)
-                <tr>
-                    <td>{{ $producto }}</td>
-                    <td>{{ $detalle['cantidad'] }}</td>
-                    <td>${{ $detalle['precio'] }} CLP</td>
-                    <td>${{ $detalle['cantidad'] * $detalle['precio'] }} CLP</td>
-                    <td>
-                        <form action="{{ route('cart.remove') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="producto" value="{{ $producto }}">
-                            <button class="btn btn-danger" type="submit">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
+                @forelse($cart as $index => $item)
+                    <tr>
+                        <td>{{ $item['producto'] }}</td>
+                        <td>{{ $item['marca'] }}</td>
+                        <td>{{ $item['cantidad'] }}</td>
+                        <td>${{ $item['precio'] }} CLP</td>
+                        <td>${{ $item['cantidad'] * $item['precio'] }} CLP</td>
+                        <td>
+                            <form action="{{ route('cart.remove') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="index" value="{{ $index }}">
+                                <button type="submit" class="btn btn-danger">Remover</button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">El carrito está vacío</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
-    @else
-        <p>No hay productos en el carrito.</p>
-    @endif
+    </div>
+    <a href="{{ route('home.index') }}" class="btn btn-primary">Continuar Comprando</a>
 </div>
 @endsection

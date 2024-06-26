@@ -13,8 +13,8 @@ class CreateCecinasTable extends Migration
             $table->string('nombre');
             $table->string('marca');
             $table->integer('precio');
-            $table->string('peso');
-            $table->string('imagen')->nullable();
+            $table->string('imagen');
+            $table->integer('peso')->default(250); // Valor por defecto para peso
             $table->timestamps();
         });
     }

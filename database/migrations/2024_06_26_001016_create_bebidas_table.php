@@ -13,7 +13,7 @@ class CreateBebidasTable extends Migration
             $table->string('nombre');
             $table->string('litros');
             $table->integer('precio');
-            $table->string('imagen')->nullable();
+            $table->string('imagen');
             $table->timestamps();
         });
     }

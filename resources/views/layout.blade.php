@@ -1,87 +1,38 @@
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('favicon.ico') }}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-custom.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>@yield('title', 'Minimarket Carolina')</title>
-    <style>
-        .navbar-nav {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-        }
-        .navbar-nav .nav-item {
-            margin-left: 15px;
-        }
-        .navbar-nav .nav-item .nav-link {
-            color: #fff;
-        }
-        .navbar-nav .nav-item .nav-link.active {
-            font-weight: bold;
-            color: #ffc107;
-        }
-        body {
-            background-color: #f8f9fa;
-        }
-        .main-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-            margin-top: 2rem;
-        }
-        .footer {
-            background-color: #343a40;
-            color: white;
-            padding: 1rem 0;
-            text-align: center;
-        }
-        .category-title {
-            background-color: #007bff;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem 0.5rem 0 0;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        .product-card {
-            margin-bottom: 1rem;
-        }
-        .product-card img {
-            border-bottom: 1px solid #ddd;
-        }
-        .product-card .card-body {
-            padding: 1rem;
-        }
-    </style>
+    <title>@yield('title')</title>
 </head>
-
 <body>
-    <!-- Barra usuario -->
+    <!-- barra usuario -->
     <div class="container-fluid">
-        <div class="row bg-dark text-white py-2">
+        <div class="row bg-dark text-white">
             <div class="col-8">
-                Bienvenido <span class="fw-bold">{{ Auth::user()->name ?? 'Usuario' }}</span>
+                Bienvenido <span class="fw-bold">User1</span>
             </div>
             <div class="col-3 text-end d-none d-lg-block">
-                Último inicio de sesión {{ Auth::user()->last_login ?? 'N/A' }}
+                Último inicio de sesión 01/04/2023 a las 18:34
             </div>
             <div class="col-1 text-end d-none d-lg-block">
-                <a href="{{ route('logout') }}" class="text-white">Cerrar Sesión</a>
+                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-link text-white" style="text-decoration: none;">Cerrar Sesión</button>
+                </form>
             </div>
         </div>
     </div>
 
-    <!-- Navbar -->
+    <!-- navbar -->
     <div class="container-fluid px-0">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Minimarket Carolina</a>
+                <a class="navbar-brand" href="#">MiMarket</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -90,35 +41,34 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link @if(Route::current()->getName()=='home') active @endif" 
-                            aria-current="page" href="{{ route('home') }}">Inicio</a>
+                            <a class="nav-link @if(Route::currentRouteName() == 'home.index') active @endif" 
+                            aria-current="page" href="{{ route('home.index') }}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if(Route::current()->getName()=='cecinas') active @endif"
-                            href="{{ route('cecinas') }}">Cecinas</a>
+                            <a class="nav-link @if(Route::currentRouteName() == 'bebidas.index') active @endif"
+                            href="{{ route('bebidas.index') }}">Bebidas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if(Route::current()->getName()=='bebidas') active @endif"
-                            href="{{ route('bebidas') }}">Bebidas</a>
+                            <a class="nav-link @if(Route::currentRouteName() == 'cecinas.index') active @endif"
+                            href="{{ route('cecinas.index') }}">Cecinas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if(Route::current()->getName()=='galletas') active @endif"
-                            href="{{ route('galletas') }}">Galletas</a>
+                            <a class="nav-link @if(Route::currentRouteName() == 'galletas.index') active @endif"
+                            href="{{ route('galletas.index') }}">Galletas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if(Route::current()->getName()=='lacteos') active @endif"
-                            href="{{ route('lacteos') }}">Lácteos</a>
+                            <a class="nav-link @if(Route::currentRouteName() == 'lacteos.index') active @endif"
+                            href="{{ route('lacteos.index') }}">Lácteos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if(Route::current()->getName()=='otros') active @endif"
-                            href="{{ route('otros') }}">Otros</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @if(Route::current()->getName()=='carrito') active @endif"
-                            href="{{ route('carrito') }}">Carrito</a>
+                            <a class="nav-link @if(Route::currentRouteName() == 'otros.index') active @endif"
+                            href="{{ route('otros.index') }}">Otros</a>
                         </li>
                         <li class="nav-item d-lg-none">
-                            <a class="nav-link" href="{{ route('logout') }}">Cerrar Sesión</a>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="nav-link btn btn-link" style="text-decoration: none;">Cerrar Sesión</button>
+                            </form>
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
@@ -130,14 +80,9 @@
         </nav>
     </div>
 
-    <!-- Contenido Principal -->
-    <div class="container main-content">
+    <!-- contenido principal -->
+    <div class="container mt-5">
         @yield('contenido-principal')
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        &copy; 2024 Minimarket Carolina. Todos los derechos reservados.
     </div>
 
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
@@ -146,5 +91,4 @@
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>
 </body>
-
 </html>
