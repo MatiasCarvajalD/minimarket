@@ -25,12 +25,10 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('cecinas')->group(function () {
         Route::get('/', [CecinasController::class, 'index'])->name('cecinas');
-        Route::get('/{categoria}', [CecinasController::class, 'categoria'])->name('cecinas.categoria');
     });
 
     Route::prefix('bebidas')->group(function () {
         Route::get('/', [BebidasController::class, 'index'])->name('bebidas');
-        Route::get('/{categoria}', [BebidasController::class, 'categoria'])->name('bebidas.categoria');
     });
 
     Route::prefix('galletas')->group(function () {
@@ -46,3 +44,4 @@ Route::middleware('auth')->group(function () {
     Route::post('/carrito/add', [CartController::class, 'add'])->name('cart.add');
     Route::post('/carrito/remove', [CartController::class, 'remove'])->name('cart.remove');
 });
+
