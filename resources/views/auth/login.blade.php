@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-custom.min.css') }}">
-    <title>Login - Minimarket Carolina</title>
+    <title>Login - Minimarket</title>
 </head>
 
 <body style="background: linear-gradient(to bottom, #ff9966 0%, #ff5e62 100%);">
@@ -15,7 +15,7 @@
             <div class="col-12 col-lg-6 offset-lg-3">
                 <div class="card">
                     <div class="card-header bg-primary text-white text-center">
-                        <h4>Minimarket Carolina</h4>
+                        <h4>Minimarket </h4>
                         <p>Inicio de Sesión</p>
                     </div>
                     <div class="card-body">
@@ -47,7 +47,6 @@
                             </div>
                         @endif
                     </div>
-                    
                 </div>
             </div>
         </div>

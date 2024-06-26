@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,7 @@
                 <div class="card">
                     <div class="card-header bg-primary text-white text-center">
                         <h4>Minimarket Carolina</h4>
-                        <p>Registro</p>
+                        <p>Registro de Usuario</p>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('register') }}" method="POST">
@@ -26,16 +26,12 @@
                                 <input type="text" id="name" name="name" class="form-control" required>
                             </div>
                             <div class="mb-3">
-                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <label for="email" class="form-label">Email</label>
                                 <input type="email" id="email" name="email" class="form-control" required>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Contraseña</label>
                                 <input type="password" id="password" name="password" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
-                                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required>
                             </div>
                             <div class="mb-3 text-end">
                                 <button type="submit" class="btn btn-success">Registrarse</button>
@@ -51,12 +47,7 @@
                                 </ul>
                             </div>
                         @endif
-
-                        <div class="mt-3 text-end">
-                            <a href="{{ route('login') }}" class="btn btn-primary">Iniciar Sesión</a>
-                        </div>
                     </div>
-                    
                 </div>
             </div>
         </div>

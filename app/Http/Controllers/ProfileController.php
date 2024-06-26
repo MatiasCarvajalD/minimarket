@@ -22,7 +22,7 @@ class ProfileController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:usuarios,email',
             'password' => 'required|min:6',
             'role' => 'required'
         ]);
@@ -49,7 +49,7 @@ class ProfileController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$user->id,
+            'email' => 'required|email|unique:usuarios,email,'.$user->id,
             'password' => 'nullable|min:6',
             'role' => 'required'
         ]);

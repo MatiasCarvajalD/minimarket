@@ -3,49 +3,62 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use App\Models\Carrito;
 use App\Models\Producto;
+use App\Models\CarritoItem;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
     public function index()
     {
-        $cart = Session::get('cart', []);
-        return view('carrito.index', compact('cart'));
+        $carrito = Carrito::where('user_id', Auth::id())->with('items.producto')->first();
+        $total = $carrito ? $carrito->items->sum('subtotal') : 0;
+        return view('cart.index', compact('carrito', 'total'));
     }
 
     public function add(Request $request)
     {
-        $producto = Producto::find($request->producto_id);
+        $producto = Producto::findOrFail($request->producto_id);
+        $carrito = Carrito::firstOrCreate(['user_id' => Auth::id()]);
 
-        if (!$producto) {
-            return redirect()->route('home.index')->with('error', 'Producto no encontrado');
-        }
+        $item = $carrito->items()->where('producto_id', $producto->id)->first();
 
-        $cart = Session::get('cart', []);
-
-        if (isset($cart[$producto->id])) {
-            $cart[$producto->id]['cantidad'] += $request->cantidad;
+        if ($item) {
+            $item->cantidad += 1;
         } else {
-            $cart[$producto->id] = [
-                'nombre' => $producto->nombre,
-                'precio' => $producto->precio,
-                'cantidad' => $request->cantidad,
-            ];
+            $item = new CarritoItem([
+                'producto_id' => $producto->id,
+                'cantidad' => 1,
+                'subtotal' => $producto->precio
+            ]);
         }
 
-        Session::put('cart', $cart);
+        $item->subtotal = $item->cantidad * $producto->precio;
+        $carrito->items()->save($item);
 
-        return redirect()->route('carrito.index')->with('success', 'Producto agregado al carrito');
+        return redirect()->route('carrito.index')->with('success', 'Producto agregado al carrito.');
     }
 
     public function remove(Request $request)
     {
-        $cart = Session::get('cart', []);
-        unset($cart[$request->producto_id]);
+        $carrito = Carrito::where('user_id', Auth::id())->firstOrFail();
+        $item = $carrito->items()->where('producto_id', $request->producto_id)->firstOrFail();
+        $item->delete();
 
-        Session::put('cart', $cart);
+        return redirect()->route('carrito.index')->with('success', 'Producto eliminado del carrito.');
+    }
 
-        return redirect()->route('carrito.index')->with('success', 'Producto eliminado del carrito');
+    public function clear()
+    {
+        $carrito = Carrito::where('user_id', Auth::id())->firstOrFail();
+        $carrito->items()->delete();
+
+        return redirect()->route('carrito.index')->with('success', 'Carrito vacío.');
+    }
+
+    public function checkout()
+    {
+        // Implementar el proceso de checkout
     }
 }

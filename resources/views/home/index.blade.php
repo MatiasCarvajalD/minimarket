@@ -4,9 +4,9 @@
 
 @section('contenido-principal')
 <div class="container mt-5">
-    <h1>Bienvenido a Minimarket Carolina</h1>
+    <h1>Bienvenido a Minimarket</h1>
     
-    <!-- Productos destacados -->
+    <!-- Productos Destacados -->
     <section>
         <h2>Productos Destacados</h2>
         <div class="row">
@@ -17,11 +17,10 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $producto->nombre }}</h5>
                         <p class="card-text">{{ $producto->precio }} CLP</p>
-                        <form action="{{ route('cart.add') }}" method="POST">
+                        <form action="{{ route('carrito.add') }}" method="POST">
                             @csrf
                             <input type="hidden" name="producto_id" value="{{ $producto->id }}">
-                            <input type="number" name="cantidad" value="1" min="1" class="form-control mb-2" style="width: 80px;">
-                            <button type="submit" class="btn btn-primary">Añadir al Carrito</button>
+                            <button type="submit" class="btn btn-primary">Agregar al Carrito</button>
                         </form>
                     </div>
                 </div>
@@ -30,7 +29,7 @@
         </div>
     </section>
 
-    <!-- Categorías populares -->
+    <!-- Categorías Populares -->
     <section>
         <h2>Categorías Populares</h2>
         <div class="row">
@@ -49,7 +48,7 @@
         </div>
     </section>
 
-    <!-- Ofertas especiales -->
+    <!-- Ofertas Especiales -->
     <section>
         <h2>Ofertas Especiales</h2>
         <div class="row">
@@ -60,11 +59,10 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $oferta->nombre }}</h5>
                         <p class="card-text">{{ $oferta->precio }} CLP</p>
-                        <form action="{{ route('cart.add') }}" method="POST">
+                        <form action="{{ route('carrito.add') }}" method="POST">
                             @csrf
                             <input type="hidden" name="producto_id" value="{{ $oferta->id }}">
-                            <input type="number" name="cantidad" value="1" min="1" class="form-control mb-2" style="width: 80px;">
-                            <button type="submit" class="btn btn-primary">Añadir al Carrito</button>
+                            <button type="submit" class="btn btn-primary">Agregar al Carrito</button>
                         </form>
                     </div>
                 </div>
@@ -72,5 +70,6 @@
             @endforeach
         </div>
     </section>
+
 </div>
 @endsection

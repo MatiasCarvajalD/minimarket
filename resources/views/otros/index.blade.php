@@ -9,7 +9,7 @@
         <div class="col-md-3">
             <div class="list-group">
                 @foreach($categorias as $categoria)
-                <a href="#{{ $categoria }}" class="list-group-item list-group-item-action">{{ $categoria }}</a>
+                <a href="{{ route('otros.categoria', $categoria) }}" class="list-group-item list-group-item-action">{{ $categoria }}</a>
                 @endforeach
             </div>
         </div>
@@ -26,13 +26,11 @@
                             <p class="card-text">Marca: {{ $producto->marca }}</p>
                             <p class="card-text">Peso: {{ $producto->peso }} {{ $producto->unidad }}</p>
                             <p class="card-text">Precio: ${{ $producto->precio }} CLP</p>
-                            <form action="{{ route('cart.add') }}" method="POST">
+                            <form action="{{ route('carrito.add') }}" method="POST">
                                 @csrf
                                 <div class="input-group mb-3">
                                     <input type="number" name="cantidad" class="form-control" placeholder="Cantidad" min="1" value="1">
-                                    <input type="hidden" name="producto" value="{{ $producto->nombre }}">
-                                    <input type="hidden" name="marca" value="{{ $producto->marca }}">
-                                    <input type="hidden" name="precio" value="{{ $producto->precio }}">
+                                    <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                                     <button class="btn btn-primary" type="submit">Agregar</button>
                                 </div>
                             </form>

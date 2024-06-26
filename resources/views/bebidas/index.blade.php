@@ -13,13 +13,11 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $bebida->nombre }} ({{ $bebida->litros }})</h5>
                     <p class="card-text">Precio: ${{ $bebida->precio }} CLP</p>
-                    <form action="{{ route('cart.add') }}" method="POST">
+                    <form action="{{ route('carrito.add') }}" method="POST">
                         @csrf
                         <div class="input-group mb-3">
                             <input type="number" name="cantidad" class="form-control" placeholder="Cantidad" min="1" value="1">
-                            <input type="hidden" name="producto" value="{{ $bebida->nombre }}">
-                            <input type="hidden" name="litros" value="{{ $bebida->litros }}">
-                            <input type="hidden" name="precio" value="{{ $bebida->precio }}">
+                            <input type="hidden" name="producto_id" value="{{ $bebida->id }}">
                             <button class="btn btn-primary" type="submit">Agregar</button>
                         </div>
                     </form>

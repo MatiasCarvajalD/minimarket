@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Cecina extends Model
 {
     use HasFactory;
+    protected $fillable = ['nombre', 'marca', 'precio', 'peso', 'imagen'];
 }

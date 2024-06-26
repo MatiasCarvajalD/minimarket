@@ -47,15 +47,19 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/carrito', [CartController::class, 'index'])->name('carrito.index');
-    Route::post('/carrito/add', [CartController::class, 'add'])->name('cart.add');
-    Route::post('/carrito/remove', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/carrito/add', [CartController::class, 'add'])->name('carrito.add');
+    Route::post('/carrito/remove', [CartController::class, 'remove'])->name('carrito.remove');
+    Route::post('/carrito/clear', [CartController::class, 'clear'])->name('carrito.clear');
+    Route::post('/carrito/checkout', [CartController::class, 'checkout'])->name('carrito.checkout');
 
-    Route::get('/reports/mejor_vendidos.blades', [ReportController::class, 'topSellingProducts'])->name('reports.topSellingProducts');
+    Route::get('/reports/mejor_vendidos.blade', [ReportController::class, 'topSellingProducts'])->name('reports.topSellingProducts');
     Route::get('/reports/ingresos_categoria.blade', [ReportController::class, 'totalIncomeByCategory'])->name('reports.totalIncomeByCategory');
     Route::get('/reports/nuevos_usuarios', [ReportController::class, 'newUsersLastMonth'])->name('reports.newUsersLastMonth');
     
     Route::get('/profiles', [ProfileController::class, 'index'])->name('profiles.index');
     Route::get('/profiles/create', [ProfileController::class, 'create'])->name('profiles.create');
     Route::post('/profiles', [ProfileController::class, 'store'])->name('profiles.store');
+    Route::get('/profiles/{user}/edit', [ProfileController::class, 'edit'])->name('profiles.edit');
+    Route::put('/profiles/{user}', [ProfileController::class, 'update'])->name('profiles.update');
     Route::delete('/profiles/{user}', [ProfileController::class, 'destroy'])->name('profiles.destroy');
 });

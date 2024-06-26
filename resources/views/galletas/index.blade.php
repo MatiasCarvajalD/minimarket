@@ -15,13 +15,11 @@
                     <p class="card-text">Marca: {{ $galleta->marca }}</p>
                     <p class="card-text">Peso: {{ $galleta->peso }}g</p>
                     <p class="card-text">Precio: ${{ $galleta->precio }} CLP</p>
-                    <form action="{{ route('cart.add') }}" method="POST">
+                    <form action="{{ route('carrito.add') }}" method="POST">
                         @csrf
                         <div class="input-group mb-3">
                             <input type="number" name="cantidad" class="form-control" placeholder="Cantidad" min="1" value="1">
-                            <input type="hidden" name="producto" value="{{ $galleta->nombre }}">
-                            <input type="hidden" name="marca" value="{{ $galleta->marca }}">
-                            <input type="hidden" name="precio" value="{{ $galleta->precio }}">
+                            <input type="hidden" name="producto_id" value="{{ $galleta->id }}">
                             <button class="btn btn-primary" type="submit">Agregar</button>
                         </div>
                     </form>
