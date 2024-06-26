@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             LacteosTableSeeder::class,
             PanaderiaTableSeeder::class,
             OtrosTableSeeder::class,
+            UserTableSeeder::class // Asegúrate de que el nombre de la clase es correcto
         ]);
     }
 }

@@ -30,6 +30,7 @@ class Kernel extends HttpKernel
             'throttle:api',
             'bindings',
         ],
+        'role' => \App\Http\Middleware\CheckRole::class,
     ];
 
     protected $routeMiddleware = [

@@ -14,6 +14,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role')->default('user'); // Añade la columna role con un valor por defecto de 'user'
             $table->rememberToken();
             $table->timestamps();
         });
